@@ -1,0 +1,162 @@
+<div style="margin: 3%; font-weight:bold" xmlns="http://www.w3.org/1999/html">
+  <h4 class="text-center">
+    {{title}}!
+  </h4>
+
+  <table class="table table-hover table-dark">
+    <thead class="ui-treetable-header">
+    <tr >
+      <th>ID</th>
+      <th>MARKA</th>
+      <th>MODEL</th>
+      <th>KOLOR</th>
+      <th>DATA REJ.</th>
+      <th>KRAJ REJ.</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let car of cars">
+      <td>{{car.id}}</td>
+      <td>{{car.brand}}</td>
+      <td>{{car.model}}</td>
+      <td>{{car.colour}}</td>
+      <td>{{car.registrationDate}}</td>
+      <td>{{car.registrationPlace}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteCar(car.id)">usuń</button>
+      </td>
+      <td>
+        <a class="btn btn-warning" id="editButton" href="#edit" (click)="updatedCar.id = car.id"> edytuj</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br><br>
+  <div style="max-width: 70%">
+    <div style="text-align: right; max-width: 40%; float: left;">
+      <h3><span class="label label-info center-block">Dodaj Auto</span></h3>
+
+
+      <form (submit)="createCar(newCar)">
+        <div class="row">
+          <label for="validationBrand">marka:</label>
+          <input class="form-control" [(ngModel)]="newCar.brand" name="brand" placeholder="Fiat" id="validationBrand"
+                 required #brand1="ngModel">
+          <div *ngIf="brand1.invalid && (brand1.dirty || brand1.touched)" class="alert alert-danger">
+            podaj marke
+          </div>
+        </div>
+        <div class="row">
+          <label for="validationModel">model:</label>
+          <input class="form-control " [(ngModel)]="newCar.model" name="model" placeholder="Punto" id="validationModel"
+                 required #model1="ngModel">
+          <div *ngIf="model1.invalid && (model1.dirty || model1.touched)" class="alert alert-danger">
+            podaj model
+          </div>
+        </div>
+        <div class="row">
+          <label for="validationColour">kolor:</label>
+          <input formC class="form-control" [(ngModel)]="newCar.colour" name="colour" placeholder="czerwony"
+                 id="validationColour" required #colour1="ngModel">
+          <div *ngIf="colour1.invalid && (colour1.dirty || colour1.touched)" class="alert alert-danger">
+            podaj kolor
+          </div>
+        </div>
+        <div class="row">
+          <label for="validationReg">dara rej:</label>
+          <!--<input [(ngModel)]="newCar.registrationDate" name="registrationDate" placeholder="2012-01-03"><br>-->
+          <p-calendar class="form-control" [(ngModel)]="newCar.registrationDate" name="registrationDate"
+                      placeholder="01/01/2001"
+                      id="validationReg" required #date1="ngModel"></p-calendar>
+          <div *ngIf="date1.invalid && (date1.dirty || date1.touched)" class="alert alert-danger">
+            podaj date
+          </div>
+        </div>
+        <div class="row">
+          <label for="validationPlace">kraj rej:</label>
+          <input class="form-control" [(ngModel)]="newCar.registrationPlace" name="registrationPlace"
+                 placeholder="Włochy" id="validationPlace" required #place1="ngModel">
+          <div *ngIf="place1.invalid && (place1.dirty || place1.touched)" class="alert alert-danger">
+            podaj miejsce rejestracji
+          </div>
+        </div>
+        <button class="btn btn-success" type="submit">Dodaj</button>
+      </form>
+      <div class="row text-danger" *ngIf="errorMsg"> Lista błędów
+        <ul *ngFor="let msg of errorMsg">
+          <li>{{msg.defaultMessage}}</li>
+        </ul>
+      </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <p name="edit" class="" id="edit">
+    </p>
+
+    <div style="text-align: right; max-width: 40%; float: left">
+      <h3><span class="label label-info center-block">Edytuj Auto</span></h3>
+      <form (submit)="updateCar(updatedCar,updatedCar.id)" novalidate>
+        <div class="row">
+          <label>id:</label>
+          <input class="form-control" [(ngModel)]="updatedCar.id" name="id" placeholder="1" required
+                 #idd="ngModel" disabled> <br>
+          <div *ngIf="idd.invalid && (idd.dirty || idd.touched)" class="alert alert-danger">
+            podaj id
+          </div>
+        </div>
+        <div class="row">
+          <label>marka:</label>
+          <input class="form-control" [(ngModel)]="updatedCar.brand" name="brand" placeholder="Fiat" #brand="ngModel"
+                 required>
+          <div *ngIf="brand.invalid && (brand.dirty || brand.touched)" class="alert alert-danger">
+            podaj marke
+          </div>
+        </div>
+        <div class="row">
+          <label>model:</label>
+          <input class="form-control" [(ngModel)]="updatedCar.model" name="model" placeholder="Punto" #model="ngModel"
+                 required>
+          <div *ngIf="model.invalid && (model.dirty || model.touched)" class="alert alert-danger">
+            podaj marke
+          </div>
+        </div>
+        <div class="row">
+          <label>color:</label>
+          <input class="form-control" [(ngModel)]="updatedCar.colour" name="colour" placeholder="czerwony"
+                 #color="ngModel" required>
+
+          <div *ngIf="color.invalid && (color.dirty || color.touched)" class="alert alert-danger">
+            podaj kolor
+          </div>
+        </div>
+        <div class="row">
+          <label>data rej.:</label>
+          <p-calendar class="form-control" [(ngModel)]="updatedCar.registrationDate" name="registrationDate"
+                      placeholder="01/01/2001" #date="ngModel"
+                      required></p-calendar>
+          <div *ngIf="date.invalid && (date.dirty || date.touched)" class="alert alert-danger">
+            podaj date
+          </div>
+        </div>
+        <div class="row">
+          <label>kraj rej.:</label>
+          <input class="form-control" [(ngModel)]="updatedCar.registrationPlace" name="registrationPlace"
+                 #place="ngModel"
+                 placeholder="Włochy" required><br>
+          <div *ngIf="place.invalid && (place.dirty || place.touched)" class="alert alert-danger">
+            podaj miejsce rejestracji
+          </div>
+        </div>
+        <button class="btn btn-warning" type="submit">Edytuj</button>
+      </form>
+      <div class="row text-danger" *ngIf="putError"> Lista błędów
+        <ul *ngFor="let putMsg of putError">
+          <li>{{putMsg.defaultMessage}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
